@@ -5,13 +5,21 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Time;
+import java.util.ArrayList;
 
 
 public class GUIcd extends JFrame{
 
     private JButton aggiungiTraccia;
+    private JTextField nomeCd;
+    private JTextField nomeArtista;
+    private JTextField annoCd;
+    private JTextField genereCd;
+    private Manager gestore;
 
-    public GUIcd(){
+    public GUIcd(Manager gestore){
+
+        this.gestore = gestore;
 
         AscoltaPulsanti as = new AscoltaPulsanti();
 
@@ -23,10 +31,10 @@ public class GUIcd extends JFrame{
         setLocation(200,200);
 
         //INSERIMENTO CASELLE DI TESTO
-        JTextField nomeCd = new JTextField("Nome CD");
-        JTextField nomeArtista = new JTextField("Nome Artista");
-        JTextField annoCd = new JTextField("Anno");
-        JTextField genereCd = new JTextField("Genere");
+        nomeCd = new JTextField("Nome CD");
+        nomeArtista = new JTextField("Nome Artista");
+        annoCd = new JTextField("Anno");
+        genereCd = new JTextField("Genere");
 
         nomeCd.setPreferredSize(new Dimension(200,30));
         nomeArtista.setPreferredSize(new Dimension(200,30));
@@ -69,7 +77,9 @@ public class GUIcd extends JFrame{
         public void actionPerformed(ActionEvent e) {
             JButton source = (JButton) e.getSource();
             if (source.equals(aggiungiTraccia)){
-                new GUItrack();
+                //new GUItrack();
+                System.out.println("Sono qui");
+                gestore.newCd(nomeArtista.getText(),Integer.parseInt(annoCd.getText()),nomeCd.getText(),genereCd.getText(),new ArrayList<Track>() ,6);
             }
         }
     }

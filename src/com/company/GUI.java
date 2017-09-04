@@ -19,6 +19,8 @@ public class GUI extends JFrame {
     private JMenuItem nuovoCd;
     private JMenuItem nuovaTraccia;
     private Manager gestore;
+    private JMenuItem aggiornaTabella;
+    private DefaultTableModel tableModel;
 
     public GUI(){
 
@@ -42,23 +44,29 @@ public class GUI extends JFrame {
         menuBar.add(menuLibreria);
         menuBar.add(menuCd);
 
+        //Creazione elementi barra menu
         nuovaLibreria = new JMenuItem("Nuova Libreria", KeyEvent.VK_T);
         apriLibreria = new JMenuItem("Apri Libreria", KeyEvent.VK_T);
         salvaLibreria = new JMenuItem("Salva Libreria", KeyEvent.VK_T);
         nuovoCd = new JMenuItem("Nuovo CD", KeyEvent.VK_T);
         nuovaTraccia = new JMenuItem("Nuova traccia in...", KeyEvent.VK_T);
+        aggiornaTabella = new JMenuItem("Aggiorna dati tabella", KeyEvent.VK_T);
 
+        //aggiunta elementi a menu
+        menuFile.add(aggiornaTabella);
         menuLibreria.add(nuovaLibreria);
         menuLibreria.add(apriLibreria);
         menuLibreria.add(salvaLibreria);
         menuCd.add(nuovoCd);
         menuCd.add(nuovaTraccia);
 
+        //aggiunta ascoltatori
         nuovaLibreria.addActionListener(as);
         apriLibreria.addActionListener(as);
         salvaLibreria.addActionListener(as);
         nuovoCd.addActionListener(as);
         nuovaTraccia.addActionListener(as);
+        aggiornaTabella.addActionListener(as);
 
         //DATI TEST
         gestore.newCd("Mario",2002,"Bello","house",new ArrayList<Track>() ,1);
@@ -70,7 +78,7 @@ public class GUI extends JFrame {
         //AGGIUNTA TABELLA TRACCE
         //Jtable(nomeColonne, dati)
         String[] nomeColonne = {"Autore","Anno","Titolo","Genere"};
-        DefaultTableModel tableModel = new DefaultTableModel(nomeColonne, 0);
+        tableModel = new DefaultTableModel(nomeColonne, 0);
 
         JTable table = new JTable(tableModel);
 
@@ -98,15 +106,36 @@ public class GUI extends JFrame {
         pack();
         setVisible(true);
     }
+
+    public void aggiornaDatiTabella(DefaultTableModel tableModel){
+
+        for (int i = 0; i < gestore.getCdArray().size(); i++){
+            tableModel.removeRow(i);
+        }
+
+        for (int i = 0; i < gestore.getCdArray().size(); i++){
+            String autore = gestore.getCdArray().get(i).getAuthor();
+            String anno = gestore.getCdArray().get(i).getYear().toString();
+            String titolo = gestore.getCdArray().get(i).getTitle();
+            String genere = gestore.getCdArray().get(i).getGen();
+
+            Object [] data = {autore,anno,titolo,genere};
+
+            tableModel.addRow(data);
+
+        }
+    }
+
     private class AscoltaPulsanti implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
             JMenuItem source = (JMenuItem)e.getSource();
             if (source.equals(nuovoCd)){
-                new GUIcd();
+                new GUIcd(gestore);
             }
-            System.out.println("Selected: " + e.getActionCommand());
-
+            if(source.equals(aggiornaTabella)){
+                aggiornaDatiTabella(tableModel);
+            }
 
         }
     }
