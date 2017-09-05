@@ -1,9 +1,12 @@
 package com.company;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.Time;
 import java.util.ArrayList;
 
@@ -58,30 +61,65 @@ public class GUIcd extends JFrame{
         panel.add(aggiungiTraccia);
         aggiungiTraccia.addActionListener(as);
 
-        /*
-        //BOTTONE AGGIUNGI CD
-        aggiungiCd = new JButton("Aggiungi CD a catalogo");
-        aggiungiCd.setPreferredSize(new Dimension(200,30));
-        panel.add(aggiungiCd);
-        aggiungiCd.addActionListener(as);
-        */
+        //DATI TEST
+        gestore.newTrack("oriva","32:15","soul",4,"coap",idSetter);
 
         //TABELLA TRACCE PRESENTI GIÀ NEL DISCOO
-        //Jtable(nomeColonne, dati)CENTER
-        String[] nomeColonne = {"Traccia","Durata","Genere","Classifica","Commento"};
-        Object[][] data = new Object[][]{
-                {"happy days",new Time(3,5,6),"Soul",5,"Bella"},
-                {"no days",new Time(0,5,6),"Blues",5,"non tanto bella"},
-        };
-        JTable table = new JTable(data,nomeColonne);
-        JScrollPane scrollPane = new JScrollPane(table);
-        //table.setFillsViewportHeight(true);
-        panel.add(scrollPane);
+        //Jtable(nomeColonne, dati)
 
+        String[] nomeColonne = {"Traccia","Durata","Genere","Classifica","Commento"};
+        DefaultTableModel tableModel = new DefaultTableModel(nomeColonne, 0);
+
+        JTable table = new JTable(tableModel);
+
+        if (!(gestore.getCdArray().isEmpty())){
+            for (int i = 0; i < gestore.getCdArray().size(); i++){
+                String nomeTraccia = gestore.getCdArray().get(idSetter).getTracks().get(i).getTrackTitle();
+                String durata = gestore.getCdArray().get(idSetter).getTracks().get(i).getTrackTotalTime();
+                Integer classifica = gestore.getCdArray().get(idSetter).getTracks().get(i).getRank();
+                String descrizione = gestore.getCdArray().get(idSetter).getTracks().get(i).getDescription();
+                String genereTraccia = gestore.getCdArray().get(idSetter).getTracks().get(i).getTrackGen();
+
+
+                Object [] data = {nomeTraccia,durata,genereTraccia,classifica,descrizione};
+
+                tableModel.addRow(data);
+
+            }
+        }
+
+
+        JScrollPane scrollPane = new JScrollPane(table);
+
+        panel.add(scrollPane);
 
         getContentPane().add(BorderLayout.CENTER,panel);
         pack();
         setVisible(true);
+
+        //REFRESH   DELLA TABELLA ALL'OTTENIMENTO DEL FOCUS
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowGainedFocus(WindowEvent e) {
+                System.out.println("Aggiorno tabella");
+                tableModel.setRowCount(0);
+                for (int i = 0; i < gestore.getCdArray().size(); i++){
+                    String nomeTraccia = gestore.getCdArray().get(idSetter).getTracks().get(i).getTrackTitle();
+                    String durata = gestore.getCdArray().get(idSetter).getTracks().get(i).getTrackTotalTime();
+                    Integer classifica = gestore.getCdArray().get(idSetter).getTracks().get(i).getRank();
+                    String descrizione = gestore.getCdArray().get(idSetter).getTracks().get(i).getDescription();
+                    String genereTraccia = gestore.getCdArray().get(idSetter).getTracks().get(i).getTrackGen();
+
+
+                    Object [] data = {nomeTraccia,durata,genereTraccia,classifica,descrizione};
+
+                    tableModel.addRow(data);
+
+                }
+
+            }
+        });
     }
 
     private class AscoltaPulsanti implements ActionListener {

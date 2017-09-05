@@ -69,11 +69,11 @@ public class GUI extends JFrame {
         aggiornaTabella.addActionListener(as);
 
         //DATI TEST
-        gestore.newCd("Mario",2002,"Bello","house",new ArrayList<Track>() ,1);
+        /*gestore.newCd("Mario",2002,"Bello","house",new ArrayList<Track>() ,1);
         gestore.newCd("Jovanotti",1999,"A te","pop",new ArrayList<Track>() ,2);
         gestore.newCd("Fedex",3333,"Aggg","cacca",new ArrayList<Track>() ,3);
         gestore.newCd("Leonardo",43,"non","non",new ArrayList<Track>() ,4);
-
+        */
 
         //AGGIUNTA TABELLA TRACCE
         //Jtable(nomeColonne, dati)

@@ -40,7 +40,7 @@ public class GUItrack extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         JPanel panel = new JPanel(); //FLOW LAYOUT
         //JPanel panel = new JPanel(new GridLayout(4,4,4,4)); //GRID LAYOUT
-        setPreferredSize(new Dimension(450,110));
+        setPreferredSize(new Dimension(450,130));
         setLocation(700,200);
 
         //INSERIMENTO CASELLE DI TESTO
