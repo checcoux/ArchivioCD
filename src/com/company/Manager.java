@@ -1,6 +1,5 @@
 package com.company;
 
-import java.sql.Time;
 import java.util.ArrayList;
 
 public class Manager {
@@ -14,7 +13,7 @@ public class Manager {
     //per aggiungere una traccia bisogna passare i metadati alla funzione newTrack e l'id del cd
     //ovviamente prima è necessario creare un cd con nessuna traccia al suo interno, esse verranno aggiunte dopo
 
-    public void newTrack(String trackTitle, Time trackTotalTime, String trackGen, Integer rank, String description, Integer id){
+    public void newTrack(String trackTitle, String trackTotalTime, String trackGen, Integer rank, String description, Integer id){
         Track tmpTrack = new Track(trackTitle,trackTotalTime,trackGen, rank, description);
         cdArray.get(id).addTrack(tmpTrack);
     }

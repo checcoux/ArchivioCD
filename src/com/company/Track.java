@@ -1,15 +1,13 @@
 package com.company;
 
-import java.sql.Time;
-
 public class Track {
     private String trackTitle;
-    private Time trackTotalTime;
+    private String trackTotalTime;
     private String trackGen;
     private Integer rank;
     private String description;
 
-    public Track(String trackTitle, Time trackTotalTime, String trackGen, Integer rank, String description){
+    public Track(String trackTitle, String trackTotalTime, String trackGen, Integer rank, String description){
         this.trackTitle = trackTitle;
         this.trackTotalTime = trackTotalTime;
         this.trackGen = trackGen;
@@ -42,11 +40,11 @@ public class Track {
         this.trackTitle = trackTitle;
     }
 
-    public Time getTrackTotalTime() {
+    public String getTrackTotalTime() {
         return trackTotalTime;
     }
 
-    public void setTrackTotalTime(Time trackTotalTime) {
+    public void setTrackTotalTime(String trackTotalTime) {
         this.trackTotalTime = trackTotalTime;
     }
 
