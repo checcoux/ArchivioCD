@@ -19,9 +19,11 @@ public class GUIcd extends JFrame{
     private JTextField annoCd;
     private JTextField genereCd;
     private Manager gestore;
-    private JButton aggiungiCd;
+    private JButton updateui;
     private boolean cdInserito;
     private Integer idSetter = new Integer(1);
+
+    DefaultTableModel tableModel;
 
     public GUIcd(Manager gestore){
 
@@ -30,6 +32,8 @@ public class GUIcd extends JFrame{
         this.gestore = gestore;
 
         AscoltaPulsanti as = new AscoltaPulsanti();
+
+        System.out.println("id appena lanciata gui:"+idSetter.toString());
 
         setTitle("Aggiungi nuovo CD");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -61,16 +65,22 @@ public class GUIcd extends JFrame{
         panel.add(aggiungiTraccia);
         aggiungiTraccia.addActionListener(as);
 
+        updateui = new JButton("update");
+        updateui.setPreferredSize(new Dimension(200,30));
+        panel.add(updateui);
+        updateui.addActionListener(as);
+
         //DATI TEST
-        gestore.newTrack("oriva","32:15","soul",4,"coap",idSetter);
+        //gestore.newTrack("oriva","32:15","soul",4,"coap",idSetter);
 
         //TABELLA TRACCE PRESENTI GIÀ NEL DISCOO
         //Jtable(nomeColonne, dati)
 
         String[] nomeColonne = {"Traccia","Durata","Genere","Classifica","Commento"};
-        DefaultTableModel tableModel = new DefaultTableModel(nomeColonne, 0);
+        tableModel = new DefaultTableModel(nomeColonne, 0);
 
         JTable table = new JTable(tableModel);
+
 
         if (!(gestore.getCdArray().isEmpty())){
             for (int i = 0; i < gestore.getCdArray().size(); i++){
@@ -97,9 +107,9 @@ public class GUIcd extends JFrame{
         pack();
         setVisible(true);
 
-        //REFRESH   DELLA TABELLA ALL'OTTENIMENTO DEL FOCUS
+        //REFRESH DELLA TABELLA ALL'OTTENIMENTO DEL FOCUS
 
-        addWindowListener(new WindowAdapter() {
+        /*addWindowListener(new WindowAdapter() {
             @Override
             public void windowGainedFocus(WindowEvent e) {
                 System.out.println("Aggiorno tabella");
@@ -119,7 +129,18 @@ public class GUIcd extends JFrame{
                 }
 
             }
+        });*/
+
+        //incremento id SOLO A CHIUSURA
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                idSetter++;
+                e.getWindow().dispose();
+            }
         });
+
     }
 
     private class AscoltaPulsanti implements ActionListener {
@@ -129,10 +150,28 @@ public class GUIcd extends JFrame{
             if (source.equals(aggiungiTraccia)){
                 if (cdInserito == false){
                     gestore.newCd(nomeArtista.getText(),Integer.parseInt(annoCd.getText()),nomeCd.getText(),genereCd.getText(),new ArrayList<Track>() ,idSetter);
-                    idSetter++;
                     cdInserito = true;
+
+                    System.out.println("id appena aggiunto nuovo cd:"+idSetter.toString());
                 }
                 new GUItrack(gestore,idSetter);
+            }
+            if (source.equals(updateui)){
+                System.out.println("UPDATING UI");
+
+                for (int i = 0; i < gestore.getCdArray().get(idSetter-1).getTracks().size(); i++){
+                    String nomeTraccia = gestore.getCdArray().get(idSetter).getTracks().get(i).getTrackTitle();
+                    String durata = gestore.getCdArray().get(idSetter).getTracks().get(i).getTrackTotalTime();
+                    Integer classifica = gestore.getCdArray().get(idSetter).getTracks().get(i).getRank();
+                    String descrizione = gestore.getCdArray().get(idSetter).getTracks().get(i).getDescription();
+                    String genereTraccia = gestore.getCdArray().get(idSetter).getTracks().get(i).getTrackGen();
+
+
+                    Object [] data = {nomeTraccia,durata,genereTraccia,classifica,descrizione};
+
+                    tableModel.addRow(data);
+
+                }
             }
         }
     }

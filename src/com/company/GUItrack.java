@@ -71,7 +71,7 @@ public class GUItrack extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                System.out.println("Chiusura finestra");
+                System.out.println("Chiusura finestra:"+idSetter.toString());
                 gestore.newTrack(titoloTraccia.getText(),durataTraccia.getText(),genereTraccia.getText(),Integer.parseInt(classifica.getText()),descrizione.getText(),idSetter);
                 e.getWindow().dispose();
             }

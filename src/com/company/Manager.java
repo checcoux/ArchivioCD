@@ -15,7 +15,7 @@ public class Manager {
 
     public void newTrack(String trackTitle, String trackTotalTime, String trackGen, Integer rank, String description, Integer id){
         Track tmpTrack = new Track(trackTitle,trackTotalTime,trackGen, rank, description);
-        cdArray.get(id).addTrack(tmpTrack);
+        cdArray.get(id-1).addTrack(tmpTrack);
     }
 
     //per rimuovere un cd basta passare l'id del cd
