@@ -82,17 +82,7 @@ public class GUI extends JFrame {
 
         JTable table = new JTable(tableModel);
 
-        for (int i = 0; i < gestore.getCdArray().size(); i++){
-            String autore = gestore.getCdArray().get(i).getAuthor();
-            String anno = gestore.getCdArray().get(i).getYear().toString();
-            String titolo = gestore.getCdArray().get(i).getTitle();
-            String genere = gestore.getCdArray().get(i).getGen();
-
-            Object [] data = {autore,anno,titolo,genere};
-
-            tableModel.addRow(data);
-
-        }
+        aggiornaDatiTabella(tableModel);
 
         JScrollPane scrollPane = new JScrollPane(table);
         //table.setFillsViewportHeight(true);
@@ -108,11 +98,7 @@ public class GUI extends JFrame {
     }
 
     public void aggiornaDatiTabella(DefaultTableModel tableModel){
-
-        for (int i = 0; i < gestore.getCdArray().size(); i++){
-            tableModel.removeRow(i);
-        }
-
+        tableModel.setRowCount(0);
         for (int i = 0; i < gestore.getCdArray().size(); i++){
             String autore = gestore.getCdArray().get(i).getAuthor();
             String anno = gestore.getCdArray().get(i).getYear().toString();

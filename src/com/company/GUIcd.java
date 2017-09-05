@@ -16,8 +16,13 @@ public class GUIcd extends JFrame{
     private JTextField annoCd;
     private JTextField genereCd;
     private Manager gestore;
+    private JButton aggiungiCd;
+    private boolean cdInserito;
+    private Integer idSetter = new Integer(1);
 
     public GUIcd(Manager gestore){
+
+        cdInserito = false;
 
         this.gestore = gestore;
 
@@ -53,6 +58,13 @@ public class GUIcd extends JFrame{
         panel.add(aggiungiTraccia);
         aggiungiTraccia.addActionListener(as);
 
+        /*
+        //BOTTONE AGGIUNGI CD
+        aggiungiCd = new JButton("Aggiungi CD a catalogo");
+        aggiungiCd.setPreferredSize(new Dimension(200,30));
+        panel.add(aggiungiCd);
+        aggiungiCd.addActionListener(as);
+        */
 
         //TABELLA TRACCE PRESENTI GIÀ NEL DISCOO
         //Jtable(nomeColonne, dati)CENTER
@@ -77,9 +89,12 @@ public class GUIcd extends JFrame{
         public void actionPerformed(ActionEvent e) {
             JButton source = (JButton) e.getSource();
             if (source.equals(aggiungiTraccia)){
-                //new GUItrack();
-                System.out.println("Sono qui");
-                gestore.newCd(nomeArtista.getText(),Integer.parseInt(annoCd.getText()),nomeCd.getText(),genereCd.getText(),new ArrayList<Track>() ,6);
+                if (cdInserito == false){
+                    gestore.newCd(nomeArtista.getText(),Integer.parseInt(annoCd.getText()),nomeCd.getText(),genereCd.getText(),new ArrayList<Track>() ,idSetter);
+                    idSetter++;
+                    cdInserito = true;
+                }
+                new GUItrack(gestore,idSetter);
             }
         }
     }
