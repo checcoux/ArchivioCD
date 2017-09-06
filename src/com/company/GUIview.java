@@ -22,6 +22,7 @@ public class GUIview extends JFrame {
         String[] nomeColonne = {"Traccia","Durata","Genere","Classifica","Commento"};
         DefaultTableModel tableModel = new DefaultTableModel(nomeColonne, 0);
         JTable table = new JTable(tableModel);
+        table.setAutoCreateRowSorter(true);
         JScrollPane scrollPane = new JScrollPane(table);
 
         for (int i = 0; i < gestore.getCdArray().get(idSetter-1).getTracks().size(); i++){

@@ -29,26 +29,10 @@ public class Manager {
         cdArray.remove(id);
     }
 
-    //ricerca per genere, restituisce una lista di tracce
-
-    public ArrayList<Track> findTrackByGen(String gen){
-        ArrayList<Track> tmpArray = new ArrayList<Track>();
-        for (int i = 0; i < cdArray.size(); i++) {
-            ArrayList<Track> testArray = cdArray.get(i).getTracks();
-            for (int j = 0; j < testArray.size(); j++) {
-                if (testArray.get(j).getTrackGen() == gen){
-                    tmpArray.add(testArray.get(j));
-                }
-            }
-
-        }
-        return tmpArray;
-    }
-
     //salvataggio di oggetti
-    public void save() {
+    public void save(String filePath) {
         try {
-            FileOutputStream fos = new FileOutputStream("libreriacd.tas");
+            FileOutputStream fos = new FileOutputStream(filePath);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(cdArray);
             oos.close();
@@ -57,9 +41,9 @@ public class Manager {
         }
     }
 
-    public void load() {
+    public void load(String filePath) {
         try {
-            FileInputStream fis = new FileInputStream("libreriacd.tas");
+            FileInputStream fis = new FileInputStream(filePath);
             ObjectInputStream ois = new ObjectInputStream(fis);
             cdArray = (ArrayList<Cd>) ois.readObject();
             ois.close();

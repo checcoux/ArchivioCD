@@ -2,6 +2,7 @@ package com.company;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -12,17 +13,17 @@ import java.util.Date;
 import java.util.Vector;
 
 public class GUI extends JFrame {
-    private JMenuItem nuovaLibreria;
+    private JMenuItem salvaComeLibreria;
     private JMenuItem apriLibreria;
     private JMenuItem salvaLibreria;
     private JMenuItem nuovoCd;
     private JMenuItem nuovaTraccia;
     private Manager gestore;
+    private String path;
 
     public GUI(){
 
         gestore = new Manager();
-        gestore.load();
         AscoltaPulsanti as = new AscoltaPulsanti();
 
         //SETTING INIZIALE DELLA SCHERMATA
@@ -43,21 +44,21 @@ public class GUI extends JFrame {
         menuBar.add(menuCd);
 
         //Creazione elementi barra menu
-        nuovaLibreria = new JMenuItem("Nuova Libreria", KeyEvent.VK_T);
         apriLibreria = new JMenuItem("Apri Libreria", KeyEvent.VK_T);
         salvaLibreria = new JMenuItem("Salva Libreria", KeyEvent.VK_T);
+        salvaComeLibreria = new JMenuItem("Salva Come...", KeyEvent.VK_T);
         nuovoCd = new JMenuItem("Nuovo CD", KeyEvent.VK_T);
         nuovaTraccia = new JMenuItem("Nuova traccia in...", KeyEvent.VK_T);
 
         //aggiunta elementi a menu
-        menuLibreria.add(nuovaLibreria);
         menuLibreria.add(apriLibreria);
         menuLibreria.add(salvaLibreria);
+        menuLibreria.add(salvaComeLibreria);
         menuCd.add(nuovoCd);
         menuCd.add(nuovaTraccia);
 
         //aggiunta ascoltatori
-        nuovaLibreria.addActionListener(as);
+        salvaComeLibreria.addActionListener(as);
         apriLibreria.addActionListener(as);
         salvaLibreria.addActionListener(as);
         nuovoCd.addActionListener(as);
@@ -72,6 +73,7 @@ public class GUI extends JFrame {
             }
         }; //CREAZIONE MODELLO PER TABELLA (non editabile dall'utente)
         JTable table = new JTable(tableModel);
+        table.setAutoCreateRowSorter(true);
         for (int i = 0; i < gestore.getCdArray().size(); i++){
             String autore = gestore.getCdArray().get(i).getAuthor();
             String anno = gestore.getCdArray().get(i).getYear().toString();
@@ -91,7 +93,7 @@ public class GUI extends JFrame {
         pack();
         setVisible(true);
 
-        //MENU TASTO DESTRO SU TRACCE
+        //CATTURA PRESSIONE MOUSE SU TABELLA
         table.addMouseListener( new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
@@ -121,7 +123,6 @@ public class GUI extends JFrame {
                     tableModel.addRow(data);
 
                 }
-                gestore.save();
             }
         });
     }
@@ -132,6 +133,30 @@ public class GUI extends JFrame {
             JMenuItem source = (JMenuItem)e.getSource();
             if (source.equals(nuovoCd)){
                 new GUIcd(gestore);
+            }
+            if (source.equals(apriLibreria)){
+                JFileChooser chooser = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                        "Portable GIOSTRA Library", "pgl");
+                chooser.setFileFilter(filter);
+                int returnVal = chooser.showOpenDialog(null);
+                if(returnVal == JFileChooser.APPROVE_OPTION) {
+                    path = chooser.getSelectedFile().getAbsolutePath();
+                    gestore.load(path);
+                }
+            }
+            if (source.equals(salvaComeLibreria)) {
+                JFileChooser chooser = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                        "Portable GIOSTRA Library", "pgl");
+                chooser.setFileFilter(filter);
+                int returnVal = chooser.showSaveDialog(null);
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    gestore.save(path);
+                }
+            }
+            if (source.equals(salvaLibreria)){
+                gestore.save(path);
             }
         }
     }
