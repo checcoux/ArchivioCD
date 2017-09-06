@@ -1,6 +1,8 @@
 package com.company;
 
-public class Track {
+import java.io.Serializable;
+
+public class Track implements Serializable{
     private String trackTitle;
     private String trackTotalTime;
     private String trackGen;

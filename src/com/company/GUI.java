@@ -22,10 +22,11 @@ public class GUI extends JFrame {
     public GUI(){
 
         gestore = new Manager();
+        gestore.load();
         AscoltaPulsanti as = new AscoltaPulsanti();
 
         //SETTING INIZIALE DELLA SCHERMATA
-        setTitle("GUI");
+        setTitle("GIOSTRA");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel panel2 = new JPanel(); //FLOW LAYOUT
         //JPanel panel = new JPanel(new GridLayout(8,8,0,0)); //GRID LAYOUT
@@ -86,7 +87,7 @@ public class GUI extends JFrame {
 
         //AGGIUNTA COMPONENTI ALLA FINESTRA
         setJMenuBar(menuBar);
-        getContentPane().add(BorderLayout.NORTH ,scrollPane);
+        getContentPane().add(BorderLayout.CENTER ,scrollPane);
         pack();
         setVisible(true);
 
@@ -120,6 +121,7 @@ public class GUI extends JFrame {
                     tableModel.addRow(data);
 
                 }
+                gestore.save();
             }
         });
     }

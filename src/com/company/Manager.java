@@ -1,5 +1,6 @@
 package com.company;
 
+import java.io.*;
 import java.util.ArrayList;
 
 public class Manager {
@@ -21,7 +22,10 @@ public class Manager {
     //per rimuovere un cd basta passare l'id del cd
 
     public void removeCd(Integer id){
-        cdArray.get(id).getTracks().clear();
+        cdArray.get(id-1).getTracks().clear();
+        for (int i = id-1; i<cdArray.size();i++){
+            cdArray.get(id-1).setId(id);
+        }
         cdArray.remove(id);
     }
 
@@ -41,6 +45,29 @@ public class Manager {
         return tmpArray;
     }
 
+    //salvataggio di oggetti
+    public void save() {
+        try {
+            FileOutputStream fos = new FileOutputStream("libreriacd.tas");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(cdArray);
+            oos.close();
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void load() {
+        try {
+            FileInputStream fis = new FileInputStream("libreriacd.tas");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            cdArray = (ArrayList<Cd>) ois.readObject();
+            ois.close();
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     public ArrayList<Cd> getCdArray() {
         return cdArray;
     }
@@ -49,8 +76,4 @@ public class Manager {
         this.cdArray = cdArray;
     }
 
-    /* TODO: Metodi ricerca e ranking
-    * TODO: Metodo salvataggio su file(automatico e manuale)
-    * TODO: Costruttore manager
-    */
 }

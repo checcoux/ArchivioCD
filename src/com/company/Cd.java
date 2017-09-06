@@ -1,8 +1,9 @@
 package com.company;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Cd {
+public class Cd implements Serializable{
     private String author;
     private Integer year;
     private String title;
