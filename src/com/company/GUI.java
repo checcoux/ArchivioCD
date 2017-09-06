@@ -2,6 +2,7 @@ package com.company;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
@@ -61,16 +62,14 @@ public class GUI extends JFrame {
         nuovoCd.addActionListener(as);
         nuovaTraccia.addActionListener(as);
 
-        //DATI TEST
-        /*gestore.newCd("Mario",2002,"Bello","house",new ArrayList<Track>() ,1);
-        gestore.newCd("Jovanotti",1999,"A te","pop",new ArrayList<Track>() ,2);
-        gestore.newCd("Fedex",3333,"Aggg","cacca",new ArrayList<Track>() ,3);
-        gestore.newCd("Leonardo",43,"non","non",new ArrayList<Track>() ,4);
-        */
-
         //AGGIUNTA TABELLA TRACCE
         String[] nomeColonne = {"Autore","Anno","Titolo","Genere"};
-        DefaultTableModel tableModel = new DefaultTableModel(nomeColonne, 0);
+        DefaultTableModel tableModel = new DefaultTableModel(nomeColonne, 0){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        }; //CREAZIONE MODELLO PER TABELLA (non editabile dall'utente)
         JTable table = new JTable(tableModel);
         for (int i = 0; i < gestore.getCdArray().size(); i++){
             String autore = gestore.getCdArray().get(i).getAuthor();
@@ -90,6 +89,19 @@ public class GUI extends JFrame {
         getContentPane().add(BorderLayout.NORTH ,scrollPane);
         pack();
         setVisible(true);
+
+        //MENU TASTO DESTRO SU TRACCE
+        table.addMouseListener( new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    System.out.println("rigadoppio:"+table.getSelectedRow());
+                    new GUIview(gestore, table.getSelectedRow()+1);
+                }
+                if (e.getClickCount() == 1) {
+                    System.out.println("riga:"+table.getSelectedRow());
+                }
+            }
+        });
 
         //REFRESH DELLA TABELLA ALL'OTTENIMENTO DEL FOCUS
         addWindowListener(new WindowAdapter() {
@@ -111,7 +123,6 @@ public class GUI extends JFrame {
             }
         });
     }
-
 
     private class AscoltaPulsanti implements ActionListener{
         @Override
