@@ -19,7 +19,6 @@ public class GUIcd extends JFrame{
     private JTextField annoCd;
     private JTextField genereCd;
     private Manager gestore;
-    private JButton updateui;
     private boolean cdInserito;
     private Integer idSetter = new Integer(1);
 
@@ -38,7 +37,6 @@ public class GUIcd extends JFrame{
         setTitle("Aggiungi nuovo CD");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         JPanel panel = new JPanel(); //FLOW LAYOUT
-        //JPanel panel = new JPanel(new GridLayout(4,4,4,4)); //GRID LAYOUT
         setPreferredSize(new Dimension(500,500));
         setLocation(200,200);
 
@@ -65,23 +63,11 @@ public class GUIcd extends JFrame{
         panel.add(aggiungiTraccia);
         aggiungiTraccia.addActionListener(as);
 
-        updateui = new JButton("update");
-        updateui.setPreferredSize(new Dimension(200,30));
-        panel.add(updateui);
-        updateui.addActionListener(as);
 
-        //DATI TEST
-        //gestore.newTrack("oriva","32:15","soul",4,"coap",idSetter);
-
-        //TABELLA TRACCE PRESENTI GIÀ NEL DISCOO
-        //Jtable(nomeColonne, dati)
-
+        //CREAZIONE TABELLA TRACCE PRESENTI IN DISCO
         String[] nomeColonne = {"Traccia","Durata","Genere","Classifica","Commento"};
         tableModel = new DefaultTableModel(nomeColonne, 0);
-
         JTable table = new JTable(tableModel);
-
-
         if (!(gestore.getCdArray().isEmpty())){
             for (int i = 0; i < gestore.getCdArray().size(); i++){
                 String nomeTraccia = gestore.getCdArray().get(idSetter).getTracks().get(i).getTrackTitle();
@@ -90,17 +76,13 @@ public class GUIcd extends JFrame{
                 String descrizione = gestore.getCdArray().get(idSetter).getTracks().get(i).getDescription();
                 String genereTraccia = gestore.getCdArray().get(idSetter).getTracks().get(i).getTrackGen();
 
-
                 Object [] data = {nomeTraccia,durata,genereTraccia,classifica,descrizione};
 
                 tableModel.addRow(data);
 
             }
         }
-
-
         JScrollPane scrollPane = new JScrollPane(table);
-
         panel.add(scrollPane);
 
         getContentPane().add(BorderLayout.CENTER,panel);
@@ -108,18 +90,17 @@ public class GUIcd extends JFrame{
         setVisible(true);
 
         //REFRESH DELLA TABELLA ALL'OTTENIMENTO DEL FOCUS
-
-        /*addWindowListener(new WindowAdapter() {
+        addWindowListener(new WindowAdapter() {
             @Override
-            public void windowGainedFocus(WindowEvent e) {
+            public void windowActivated(WindowEvent e) {
                 System.out.println("Aggiorno tabella");
                 tableModel.setRowCount(0);
-                for (int i = 0; i < gestore.getCdArray().size(); i++){
-                    String nomeTraccia = gestore.getCdArray().get(idSetter).getTracks().get(i).getTrackTitle();
-                    String durata = gestore.getCdArray().get(idSetter).getTracks().get(i).getTrackTotalTime();
-                    Integer classifica = gestore.getCdArray().get(idSetter).getTracks().get(i).getRank();
-                    String descrizione = gestore.getCdArray().get(idSetter).getTracks().get(i).getDescription();
-                    String genereTraccia = gestore.getCdArray().get(idSetter).getTracks().get(i).getTrackGen();
+                for (int i = 0; i < gestore.getCdArray().get(idSetter-1).getTracks().size(); i++){
+                    String nomeTraccia = gestore.getCdArray().get(idSetter-1).getTracks().get(i).getTrackTitle();
+                    String durata = gestore.getCdArray().get(idSetter-1).getTracks().get(i).getTrackTotalTime();
+                    Integer classifica = gestore.getCdArray().get(idSetter-1).getTracks().get(i).getRank();
+                    String descrizione = gestore.getCdArray().get(idSetter-1).getTracks().get(i).getDescription();
+                    String genereTraccia = gestore.getCdArray().get(idSetter-1).getTracks().get(i).getTrackGen();
 
 
                     Object [] data = {nomeTraccia,durata,genereTraccia,classifica,descrizione};
@@ -127,9 +108,8 @@ public class GUIcd extends JFrame{
                     tableModel.addRow(data);
 
                 }
-
             }
-        });*/
+        });
 
         //incremento id SOLO A CHIUSURA
 
@@ -155,23 +135,6 @@ public class GUIcd extends JFrame{
                     System.out.println("id appena aggiunto nuovo cd:"+idSetter.toString());
                 }
                 new GUItrack(gestore,idSetter);
-            }
-            if (source.equals(updateui)){
-                System.out.println("UPDATING UI");
-
-                for (int i = 0; i < gestore.getCdArray().get(idSetter-1).getTracks().size(); i++){
-                    String nomeTraccia = gestore.getCdArray().get(idSetter).getTracks().get(i).getTrackTitle();
-                    String durata = gestore.getCdArray().get(idSetter).getTracks().get(i).getTrackTotalTime();
-                    Integer classifica = gestore.getCdArray().get(idSetter).getTracks().get(i).getRank();
-                    String descrizione = gestore.getCdArray().get(idSetter).getTracks().get(i).getDescription();
-                    String genereTraccia = gestore.getCdArray().get(idSetter).getTracks().get(i).getTrackGen();
-
-
-                    Object [] data = {nomeTraccia,durata,genereTraccia,classifica,descrizione};
-
-                    tableModel.addRow(data);
-
-                }
             }
         }
     }

@@ -4,9 +4,7 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,8 +17,6 @@ public class GUI extends JFrame {
     private JMenuItem nuovoCd;
     private JMenuItem nuovaTraccia;
     private Manager gestore;
-    private JMenuItem aggiornaTabella;
-    private DefaultTableModel tableModel;
 
     public GUI(){
 
@@ -50,10 +46,8 @@ public class GUI extends JFrame {
         salvaLibreria = new JMenuItem("Salva Libreria", KeyEvent.VK_T);
         nuovoCd = new JMenuItem("Nuovo CD", KeyEvent.VK_T);
         nuovaTraccia = new JMenuItem("Nuova traccia in...", KeyEvent.VK_T);
-        aggiornaTabella = new JMenuItem("Aggiorna dati tabella", KeyEvent.VK_T);
 
         //aggiunta elementi a menu
-        menuFile.add(aggiornaTabella);
         menuLibreria.add(nuovaLibreria);
         menuLibreria.add(apriLibreria);
         menuLibreria.add(salvaLibreria);
@@ -66,7 +60,6 @@ public class GUI extends JFrame {
         salvaLibreria.addActionListener(as);
         nuovoCd.addActionListener(as);
         nuovaTraccia.addActionListener(as);
-        aggiornaTabella.addActionListener(as);
 
         //DATI TEST
         /*gestore.newCd("Mario",2002,"Bello","house",new ArrayList<Track>() ,1);
@@ -76,29 +69,9 @@ public class GUI extends JFrame {
         */
 
         //AGGIUNTA TABELLA TRACCE
-        //Jtable(nomeColonne, dati)
         String[] nomeColonne = {"Autore","Anno","Titolo","Genere"};
-        tableModel = new DefaultTableModel(nomeColonne, 0);
-
+        DefaultTableModel tableModel = new DefaultTableModel(nomeColonne, 0);
         JTable table = new JTable(tableModel);
-
-        aggiornaDatiTabella(tableModel);
-
-        JScrollPane scrollPane = new JScrollPane(table);
-        //table.setFillsViewportHeight(true);
-        getContentPane().add(BorderLayout.NORTH ,scrollPane);
-
-
-        //AGGIUNTA COMPONENTI ALLA FINESTRA
-        setJMenuBar(menuBar);
-        //getContentPane().add(BorderLayout.CENTER, panel);
-        //getContentPane().add(BorderLayout.CENTER,scrollPane);
-        pack();
-        setVisible(true);
-    }
-
-    public void aggiornaDatiTabella(DefaultTableModel tableModel){
-        tableModel.setRowCount(0);
         for (int i = 0; i < gestore.getCdArray().size(); i++){
             String autore = gestore.getCdArray().get(i).getAuthor();
             String anno = gestore.getCdArray().get(i).getYear().toString();
@@ -110,7 +83,35 @@ public class GUI extends JFrame {
             tableModel.addRow(data);
 
         }
+        JScrollPane scrollPane = new JScrollPane(table);
+
+        //AGGIUNTA COMPONENTI ALLA FINESTRA
+        setJMenuBar(menuBar);
+        getContentPane().add(BorderLayout.NORTH ,scrollPane);
+        pack();
+        setVisible(true);
+
+        //REFRESH DELLA TABELLA ALL'OTTENIMENTO DEL FOCUS
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowActivated(WindowEvent e) {
+                System.out.println("Aggiorno tabella");
+                tableModel.setRowCount(0);
+                for (int i = 0; i < gestore.getCdArray().size(); i++){
+                    String autore = gestore.getCdArray().get(i).getAuthor();
+                    String anno = gestore.getCdArray().get(i).getYear().toString();
+                    String titolo = gestore.getCdArray().get(i).getTitle();
+                    String genere = gestore.getCdArray().get(i).getGen();
+
+                    Object [] data = {autore,anno,titolo,genere};
+
+                    tableModel.addRow(data);
+
+                }
+            }
+        });
     }
+
 
     private class AscoltaPulsanti implements ActionListener{
         @Override
@@ -119,10 +120,6 @@ public class GUI extends JFrame {
             if (source.equals(nuovoCd)){
                 new GUIcd(gestore);
             }
-            if(source.equals(aggiornaTabella)){
-                aggiornaDatiTabella(tableModel);
-            }
-
         }
     }
 }
