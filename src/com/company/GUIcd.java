@@ -20,14 +20,15 @@ public class GUIcd extends JFrame{
     private JTextField genereCd;
     private Manager gestore;
     private boolean cdInserito;
-    private Integer idSetter = new Integer(1);
+    private Integer idSetter;
 
-    DefaultTableModel tableModel;
 
     public GUIcd(Manager gestore){
 
+
         cdInserito = false;
 
+        this.idSetter = gestore.getCdArray().size()+1;
         this.gestore = gestore;
 
         AscoltaPulsanti as = new AscoltaPulsanti();
@@ -65,23 +66,10 @@ public class GUIcd extends JFrame{
 
 
         //CREAZIONE TABELLA TRACCE PRESENTI IN DISCO
+        //Qui non vengono caricati i dati per il semplice fatto che non ci sono dei dati da caricare
         String[] nomeColonne = {"Traccia","Durata","Genere","Classifica","Commento"};
-        tableModel = new DefaultTableModel(nomeColonne, 0);
+        DefaultTableModel tableModel = new DefaultTableModel(nomeColonne, 0);
         JTable table = new JTable(tableModel);
-        if (!(gestore.getCdArray().isEmpty())){
-            for (int i = 0; i < gestore.getCdArray().size(); i++){
-                String nomeTraccia = gestore.getCdArray().get(idSetter).getTracks().get(i).getTrackTitle();
-                String durata = gestore.getCdArray().get(idSetter).getTracks().get(i).getTrackTotalTime();
-                Integer classifica = gestore.getCdArray().get(idSetter).getTracks().get(i).getRank();
-                String descrizione = gestore.getCdArray().get(idSetter).getTracks().get(i).getDescription();
-                String genereTraccia = gestore.getCdArray().get(idSetter).getTracks().get(i).getTrackGen();
-
-                Object [] data = {nomeTraccia,durata,genereTraccia,classifica,descrizione};
-
-                tableModel.addRow(data);
-
-            }
-        }
         JScrollPane scrollPane = new JScrollPane(table);
         panel.add(scrollPane);
 
@@ -110,17 +98,6 @@ public class GUIcd extends JFrame{
                 }
             }
         });
-
-        //incremento id SOLO A CHIUSURA
-
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                idSetter++;
-                e.getWindow().dispose();
-            }
-        });
-
     }
 
     private class AscoltaPulsanti implements ActionListener {
