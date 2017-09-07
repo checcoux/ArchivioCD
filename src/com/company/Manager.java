@@ -1,6 +1,9 @@
 package com.company;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 public class Manager {
@@ -29,7 +32,7 @@ public class Manager {
         cdArray.remove(id);
     }
 
-    //salvataggio di oggetti
+    //salvataggio su file degli oggetti
     public void save(String filePath) {
         try {
             FileOutputStream fos = new FileOutputStream(filePath);
