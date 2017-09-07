@@ -21,7 +21,7 @@ public class GUIeditcd extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         JPanel panel = new JPanel(); //FLOW LAYOUT
         setPreferredSize(new Dimension(450,100));
-        setLocation(200,200);
+        setLocation(700,200);
 
         nomeCd = new JTextField(gestore.getCdArray().get(idSetter-1).getTitle());
         nomeArtista = new JTextField(gestore.getCdArray().get(idSetter-1).getAuthor());

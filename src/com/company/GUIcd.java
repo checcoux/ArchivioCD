@@ -80,7 +80,6 @@ public class GUIcd extends JFrame{
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowActivated(WindowEvent e) {
-                System.out.println("Aggiorno tabella");
                 tableModel.setRowCount(0);
                 for (int i = 0; i < gestore.getCdArray().get(idSetter-1).getTracks().size(); i++){
                     String nomeTraccia = gestore.getCdArray().get(idSetter-1).getTracks().get(i).getTrackTitle();
@@ -110,7 +109,7 @@ public class GUIcd extends JFrame{
 
                     System.out.println("id appena aggiunto nuovo cd:"+idSetter.toString());
                 }
-                new GUItrack(gestore,idSetter);
+                new GUItrack(gestore,idSetter,true,0);
             }
         }
     }

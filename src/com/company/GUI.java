@@ -23,6 +23,10 @@ public class GUI extends JFrame {
         gestore = new Manager();
         AscoltaPulsanti as = new AscoltaPulsanti();
 
+        //TEMPORANEO
+        path = "/Users/ux/Documents/ArchivioCD/ArchivioCD/libreriacd.pgl";
+        gestore.load(path);
+
         //SETTING INIZIALE DELLA SCHERMATA
         setTitle("GIOSTRA");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -46,6 +46,7 @@ public class Manager {
 
     public void load(String filePath) {
         try {
+            System.out.println(filePath);
             FileInputStream fis = new FileInputStream(filePath);
             ObjectInputStream ois = new ObjectInputStream(fis);
             cdArray = (ArrayList<Cd>) ois.readObject();
