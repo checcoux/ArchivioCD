@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Manager {
     private ArrayList<Cd> cdArray = new ArrayList<Cd>();
@@ -25,11 +26,18 @@ public class Manager {
     //per rimuovere un cd basta passare l'id del cd
 
     public void removeCd(Integer id){
-        cdArray.get(id-1).getTracks().clear();
+        /*cdArray.get(id-1).getTracks().clear();
         for (int i = id-1; i<cdArray.size();i++){
             cdArray.get(id-1).setId(id);
         }
-        cdArray.remove(id);
+        cdArray.remove(cdArray.get(id));*/
+        Iterator<Cd> it = cdArray.iterator();
+        while (it.hasNext()) {
+            if (it.next().getId() == id) {
+                it.remove();
+                break;
+            }
+        }
     }
 
     //salvataggio su file degli oggetti

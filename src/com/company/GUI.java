@@ -30,8 +30,6 @@ public class GUI extends JFrame {
         //SETTING INIZIALE DELLA SCHERMATA
         setTitle("GIOSTRA");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel panel2 = new JPanel(); //FLOW LAYOUT
-        //JPanel panel = new JPanel(new GridLayout(8,8,0,0)); //GRID LAYOUT
         setPreferredSize(new Dimension(500, 500));
         setLocation(200, 200);
 
