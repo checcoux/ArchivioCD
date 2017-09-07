@@ -55,7 +55,6 @@ public class GUI extends JFrame {
         modificaSelezionato = new JMenuItem("Modifica CD selezionato", KeyEvent.VK_T);
         rimuoviSelezionato = new JMenuItem("Rimuovi CD selezionato", KeyEvent.VK_T);
         ricercaAvanzata = new JMenuItem("Ricerca avanzata", KeyEvent.VK_T);
-        braniPreferiti = new JMenuItem("Brani preferiti", KeyEvent.VK_T);
 
         //aggiunta elementi a menu
         menuLibreria.add(apriLibreria);
@@ -65,7 +64,6 @@ public class GUI extends JFrame {
         menuArchivio.add(nuovaTraccia);
         menuModifica.add(modificaSelezionato);
         menuModifica.add(rimuoviSelezionato);
-        menuRicerca.add(braniPreferiti);
         menuRicerca.add(ricercaAvanzata);
 
         //aggiunta ascoltatori
@@ -76,7 +74,6 @@ public class GUI extends JFrame {
         nuovaTraccia.addActionListener(as);
         modificaSelezionato.addActionListener(as);
         rimuoviSelezionato.addActionListener(as);
-        braniPreferiti.addActionListener(as);
         ricercaAvanzata.addActionListener(as);
 
         //AGGIUNTA TABELLA TRACCE
@@ -130,7 +127,6 @@ public class GUI extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowActivated(WindowEvent e) {
-                System.out.println("Aggiorno tabella");
                 tableModel.setRowCount(0);
                 for (int i = 0; i < gestore.getCdArray().size(); i++) {
                     String autore = gestore.getCdArray().get(i).getAuthor();
@@ -180,11 +176,12 @@ public class GUI extends JFrame {
             }
             if (source.equals(rimuoviSelezionato)){
                 gestore.removeCd(aid);
-                System.out.println("Eliminato");
             }
             if (source.equals(modificaSelezionato)){
                 new GUIeditcd(gestore,aid);
-                System.out.println("Modificato");
+            }
+            if (source.equals(ricercaAvanzata)){
+                new GUIsearch(gestore);
             }
         }
     }
