@@ -51,7 +51,6 @@ public class GUIcd extends JFrame{
         annoCd.setPreferredSize(new Dimension(200,30));
         genereCd.setPreferredSize(new Dimension(200,30));
 
-
         panel.add(nomeCd);
         panel.add(nomeArtista);
         panel.add(annoCd);
@@ -62,7 +61,6 @@ public class GUIcd extends JFrame{
         aggiungiTraccia.setPreferredSize(new Dimension(200,30));
         panel.add(aggiungiTraccia);
         aggiungiTraccia.addActionListener(as);
-
 
         //CREAZIONE TABELLA TRACCE PRESENTI IN DISCO
         //Qui non vengono caricati i dati per il semplice fatto che non ci sono dei dati da caricare

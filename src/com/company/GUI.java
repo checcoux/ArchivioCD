@@ -14,6 +14,8 @@ public class GUI extends JFrame {
     private JMenuItem nuovaTraccia;
     private JMenuItem modificaSelezionato;
     private JMenuItem rimuoviSelezionato;
+    private JMenuItem ricercaAvanzata;
+    private JMenuItem braniPreferiti;
     private Manager gestore;
     private String path;
     private Integer aid;
@@ -38,9 +40,11 @@ public class GUI extends JFrame {
         JMenu menuModifica = new JMenu("Modifica");
         JMenu menuLibreria = new JMenu("Libreria");
         JMenu menuArchivio = new JMenu("Archivio");
+        JMenu menuRicerca = new JMenu("Ricerca");
         menuBar.add(menuModifica);
         menuBar.add(menuLibreria);
         menuBar.add(menuArchivio);
+        menuBar.add(menuRicerca);
 
         //Creazione elementi barra menu
         apriLibreria = new JMenuItem("Apri Libreria", KeyEvent.VK_T);
@@ -50,6 +54,8 @@ public class GUI extends JFrame {
         nuovaTraccia = new JMenuItem("Nuova traccia in...", KeyEvent.VK_T);
         modificaSelezionato = new JMenuItem("Modifica CD selezionato", KeyEvent.VK_T);
         rimuoviSelezionato = new JMenuItem("Rimuovi CD selezionato", KeyEvent.VK_T);
+        ricercaAvanzata = new JMenuItem("Ricerca avanzata", KeyEvent.VK_T);
+        braniPreferiti = new JMenuItem("Brani preferiti", KeyEvent.VK_T);
 
         //aggiunta elementi a menu
         menuLibreria.add(apriLibreria);
@@ -59,6 +65,8 @@ public class GUI extends JFrame {
         menuArchivio.add(nuovaTraccia);
         menuModifica.add(modificaSelezionato);
         menuModifica.add(rimuoviSelezionato);
+        menuRicerca.add(braniPreferiti);
+        menuRicerca.add(ricercaAvanzata);
 
         //aggiunta ascoltatori
         salvaComeLibreria.addActionListener(as);
@@ -68,6 +76,8 @@ public class GUI extends JFrame {
         nuovaTraccia.addActionListener(as);
         modificaSelezionato.addActionListener(as);
         rimuoviSelezionato.addActionListener(as);
+        braniPreferiti.addActionListener(as);
+        ricercaAvanzata.addActionListener(as);
 
         //AGGIUNTA TABELLA TRACCE
         String[] nomeColonne = {"Autore", "Anno", "Titolo Album", "Genere"};
