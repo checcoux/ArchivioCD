@@ -168,6 +168,7 @@ public class GUI extends JFrame {
                 chooser.setFileFilter(filter);
                 int returnVal = chooser.showSaveDialog(null);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    path = chooser.getSelectedFile().getAbsolutePath();
                     gestore.save(path);
                 }
             }
